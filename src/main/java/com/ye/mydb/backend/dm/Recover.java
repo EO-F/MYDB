@@ -2,6 +2,7 @@ package com.ye.mydb.backend.dm;
 
 import com.google.common.primitives.Bytes;
 import com.ye.mydb.backend.common.SubArray;
+import com.ye.mydb.backend.dm.dataItem.DataItem;
 import com.ye.mydb.backend.dm.logger.Logger;
 import com.ye.mydb.backend.dm.page.Page;
 import com.ye.mydb.backend.dm.page.PageX;
@@ -290,7 +291,7 @@ public class Recover {
     private static InsertLogInfo parseInsertLog(byte[] log){
         InsertLogInfo li = new InsertLogInfo();
         li.xid = Parser.parseLong(Arrays.copyOfRange(log,OF_XID,OF_INSERT_PGNO));
-        li.pgno = Parser.parseInt(Arrays.copyOfRange(log,OF_INSERT_PGNO,OF_INSERT_OFFSET);
+        li.pgno = Parser.parseInt(Arrays.copyOfRange(log,OF_INSERT_PGNO,OF_INSERT_OFFSET));
         li.offset = Parser.parseShort(Arrays.copyOfRange(log,OF_INSERT_OFFSET,OF_INSERT_RAW));
         li.raw = Arrays.copyOfRange(log,OF_INSERT_RAW,log.length);
         return li;

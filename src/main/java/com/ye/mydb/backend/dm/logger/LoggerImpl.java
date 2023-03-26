@@ -36,7 +36,7 @@ public class LoggerImpl implements Logger{
 
     private static final int OF_DATA = OF_CHECKSUM + 4;
 
-    private static final String LOG_SUFFIX = ".log";
+    public static final String LOG_SUFFIX = ".log";
 
     private RandomAccessFile file;
     private FileChannel fc;
