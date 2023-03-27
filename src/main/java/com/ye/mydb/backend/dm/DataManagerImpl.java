@@ -47,7 +47,7 @@ public class DataManagerImpl extends AbstractCache<DataItem> implements DataMana
         if(raw.length > PageX.MAX_FREE_SPACE){
             throw Error.DataTooLargeException;
         }
-
+        //尝试获取可用页
         PageInfo pi = null;
         for(int i = 0;i < 5;i++){
             pi = pIndex.select(raw.length);
@@ -66,9 +66,10 @@ public class DataManagerImpl extends AbstractCache<DataItem> implements DataMana
         int freeSpace = 0;
         try{
             pg = pc.getPage(pi.pgno);
+            //首先做日志
             byte[] log = Recover.insertLog(xid,pg,raw);
             logger.log(log);
-
+            //再执行插入操作
             short offset = PageX.insert(pg,raw);
 
             pg.release();
@@ -87,7 +88,7 @@ public class DataManagerImpl extends AbstractCache<DataItem> implements DataMana
     public void close() {
         super.close();
         logger.close();
-
+        //设置第一页的字节校验
         PageOne.setVcClose(pageOne);
         pageOne.release();
         pc.close();
