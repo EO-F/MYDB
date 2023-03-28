@@ -9,6 +9,7 @@ import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class TransactionManagerImpl implements TransactionManager{
 
@@ -42,18 +43,18 @@ public class TransactionManagerImpl implements TransactionManager{
 
     private Lock counterLock;
 
-    public TransactionManagerImpl(RandomAccessFile file, FileChannel fc, long xidCounter, Lock counterLock) {
-        this.file = file;
+    TransactionManagerImpl(RandomAccessFile raf, FileChannel fc) {
+        this.file = raf;
         this.fc = fc;
-        this.xidCounter = xidCounter;
-        this.counterLock = counterLock;
+        counterLock = new ReentrantLock();
+        checkXIDCounter();
     }
 
     /**
      * 检查XID文件是否合法
      * 读取XID_FILE_HEADER中的xidcounter，根据它计算文件的理论长度，对比实际长度
      */
-    private void checkXIDCounter() throws IOException {
+    private void checkXIDCounter() {
         long fileLen = 0;
 
         try {

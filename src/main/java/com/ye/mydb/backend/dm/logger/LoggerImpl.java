@@ -195,7 +195,7 @@ public class LoggerImpl implements Logger{
 
     @Override
     public void truncate(long x) throws Exception {
-        lock.unlock();
+        lock.lock();
         try{
             fc.truncate(x);
         }finally {

@@ -94,7 +94,7 @@ public abstract class AbstractCache<T> {
      * 强行释放一个缓存
      */
     protected void release(long key){
-        lock.unlock();
+        lock.lock();
         try{
             //获取当前资源的引用计数，减去当前线程
             int ref = references.get(key) - 1;
@@ -117,7 +117,7 @@ public abstract class AbstractCache<T> {
      * 关闭缓存，写回所有资源
      */
     protected void close(){
-        lock.unlock();
+        lock.lock();
         try{
             Set<Long> keys = cache.keySet();
             for(long key : keys){
