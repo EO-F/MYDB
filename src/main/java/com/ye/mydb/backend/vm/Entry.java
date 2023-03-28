@@ -32,6 +32,12 @@ public class Entry {
         return entry;
     }
 
+
+    public static Entry loadEntry(VersionManager vm, long uid) throws Exception {
+        DataItem di = ((VersionManagerImpl)vm).dm.read(uid);
+        return newEntry(vm, di, uid);
+    }
+
     public static byte[] wrapEntryRaw(long xid,byte[] data){
         byte[] xmin = Parser.long2Byte(xid);
         byte[] xmax = new byte[8];
